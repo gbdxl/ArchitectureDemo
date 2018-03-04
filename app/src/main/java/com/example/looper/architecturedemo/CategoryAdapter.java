@@ -2,9 +2,11 @@ package com.example.looper.architecturedemo;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.looper.architecturedemo.databinding.ItemBinding;
 
 import java.util.List;
@@ -13,40 +15,26 @@ import java.util.List;
  * Created by Looper on 2018/3/2.
  */
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+public class CategoryAdapter extends BaseQuickAdapter<ResultsBean, ViewHolder> {
 
-  private List<ResultsBean> mList;
-
-  @Override
-  public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    ItemBinding binding = DataBindingUtil.inflate(((Activity) parent.getContext()).getLayoutInflater(), R.layout.item, parent, false);
-    return new ViewHolder(binding);
+  public CategoryAdapter(@Nullable List<ResultsBean> data) {
+    super(R.layout.item, data);
   }
 
   @Override
-  public void onBindViewHolder(CategoryAdapter.ViewHolder holder, int position) {
-    holder.mBinding.setCategory(mList.get(position));
+  protected void convert(ViewHolder helper, ResultsBean item) {
+    helper.mBinding.setCategory(item);
   }
 
   @Override
-  public int getItemCount() {
-    if (mList != null)
-      return mList.size();
-    return 0;
-  }
-
-  public void setData(List<ResultsBean> results) {
-    mList = results;
-    notifyDataSetChanged();
-  }
-
-  static class ViewHolder extends RecyclerView.ViewHolder {
-
-    public ItemBinding mBinding;
-
-    public ViewHolder(ItemBinding binding) {
-      super(binding.getRoot());
-      mBinding = binding;
+  protected View getItemView(int layoutResId, ViewGroup parent) {
+    ItemBinding binding = DataBindingUtil.inflate(((Activity) parent.getContext()).getLayoutInflater(), layoutResId, parent, false);
+    if (binding == null) {
+      return super.getItemView(layoutResId, parent);
     }
+    binding.getRoot().setTag(R.id.BaseQuickAdapter_databinding_support, binding);
+    return binding.getRoot();
   }
+
+
 }
