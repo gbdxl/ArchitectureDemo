@@ -21,6 +21,7 @@ public class CategoryAdapter extends BaseQuickAdapter<ResultsBean, ViewHolder> {
   @Override
   protected void convert(ViewHolder helper, ResultsBean item) {
     helper.mBinding.setCategory(item);
+    helper.mBinding.setTask(new Task(helper.getAdapterPosition()));
   }
 
   @Override
@@ -32,6 +33,4 @@ public class CategoryAdapter extends BaseQuickAdapter<ResultsBean, ViewHolder> {
     binding.getRoot().setTag(R.id.BaseQuickAdapter_databinding_support, binding);
     return binding.getRoot();
   }
-
-
 }

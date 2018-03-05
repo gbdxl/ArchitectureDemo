@@ -10,8 +10,11 @@ import com.facebook.stetho.Stetho;
 
 public class App extends Application {
 
+  public static Application mContext;
   public void onCreate() {
     super.onCreate();
     Stetho.initializeWithDefaults(this);
+    mContext = this;
   }
+
 }

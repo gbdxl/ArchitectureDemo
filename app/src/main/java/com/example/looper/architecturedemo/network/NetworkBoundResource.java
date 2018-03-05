@@ -25,6 +25,7 @@ public abstract class NetworkBoundResource<T> {
         if (response.isSuccessful()) {
           result.setValue(Resource.success(response.body));
         } else {
+          onFetchFailed();
           result.setValue(Resource.<T>error(response.errorMessage));
         }
       }
@@ -33,7 +34,7 @@ public abstract class NetworkBoundResource<T> {
 
   protected abstract LiveData<ApiResponse<T>> createCall();
 
-  protected abstract void onFetchFailed();
+  protected void onFetchFailed(){};
 
   public final LiveData<Resource<T>> asLiveData() {
     return result;

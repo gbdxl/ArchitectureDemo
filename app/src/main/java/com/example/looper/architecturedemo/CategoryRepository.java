@@ -19,11 +19,6 @@ public class CategoryRepository {
       protected LiveData<ApiResponse<CategoryResult>> createCall() {
         return NetWork.getGankApi().getCategoryDate("Android", 10, 0);
       }
-
-      @Override
-      protected void onFetchFailed() {
-
-      }
     }.asLiveData();
   }
 
@@ -32,11 +27,6 @@ public class CategoryRepository {
       @Override
       protected LiveData<ApiResponse<CategoryResult>> createCall() {
         return NetWork.getGankApi().getCategoryDate("Android", 10, page);
-      }
-
-      @Override
-      protected void onFetchFailed() {
-
       }
     }.asLiveData();
   }

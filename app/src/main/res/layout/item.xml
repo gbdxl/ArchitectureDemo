@@ -8,11 +8,15 @@
         <variable
             name="category"
             type="com.example.looper.architecturedemo.ResultsBean" />
+        <variable
+            name="task"
+            type="com.example.looper.architecturedemo.Task"/>
 
         <import type="android.view.View" />
     </data>
 
     <RelativeLayout
+        android:onClick="@{()->task.showToast()}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

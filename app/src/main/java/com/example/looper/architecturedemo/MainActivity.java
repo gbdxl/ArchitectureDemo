@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mBinding = DataBindingUtil.setContentView(this, R.layout.main_activity);
+//    mBinding = MainActivityBinding.inflate(getLayoutInflater());
     mBinding.swipeLayout.setOnRefreshListener(this);
     mCategoryVM = ViewModelProviders.of(this).get(CategoryVM.class);
     final CategoryAdapter categoryAdapter = new CategoryAdapter();
