@@ -1,53 +1,43 @@
 package com.example.looper.architecturedemo;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.support.annotation.Nullable;
 
-import com.example.looper.architecturedemo.network.NetWork;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.looper.architecturedemo.network.Resource;
 
 /**
  * Created by looper on 2018/3/1.
  */
 
-public class CategoryVM extends BaseViewModel {
+public class CategoryVM extends ViewModel {
 
-  private final MutableLiveData<CategoryResult> liveData;
+  public final MediatorLiveData<Resource<CategoryResult>> liveData;
+  private final CategoryRepository mRepository;
+  public final MediatorLiveData<Resource<CategoryResult>> moreData;
 
-  CategoryVM(){
-    liveData = new MutableLiveData<>();
+  CategoryVM() {
+    mRepository = new CategoryRepository();
+    liveData = new MediatorLiveData<>();
+    moreData = new MediatorLiveData<>();
   }
 
-  public LiveData<CategoryResult> getLiveData() {
-    return liveData;
-  }
-
-  public void getData(final int page){
-    NetWork.getGankApi().getCategoryDate("Android",10,page).enqueue(new Callback<CategoryResult>() {
+  public void getData() {
+    liveData.addSource(mRepository.getData(), new Observer<Resource<CategoryResult>>() {
       @Override
-      public void onResponse(Call<CategoryResult> call, Response<CategoryResult> response) {
-        Log.i("============", response.toString());
-        if (page==0){
-          isRefresh.setValue(false);
-        }else{
-          isLoadMore.setValue(false);
-        }
-        liveData.setValue(response.body());
-      }
-
-      @Override
-      public void onFailure(Call<CategoryResult> call, Throwable t) {
-        if (page==0){
-          isRefreshError.setValue(false);
-        }else{
-          isLoadMoreError.setValue(false);
-        }
+      public void onChanged(@Nullable Resource<CategoryResult> resource) {
+        liveData.setValue(resource);
       }
     });
   }
 
+  public void getMoreData(final int page) {
+    moreData.addSource(mRepository.getMoreData(page), new Observer<Resource<CategoryResult>>() {
+      @Override
+      public void onChanged(@Nullable Resource<CategoryResult> categoryResultResource) {
+        moreData.setValue(categoryResultResource);
+      }
+    });
+  }
 }

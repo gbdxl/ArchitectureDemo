@@ -1,8 +1,10 @@
 package com.example.looper.architecturedemo.network.api;
 
-import com.example.looper.architecturedemo.CategoryResult;
+import android.arch.lifecycle.LiveData;
 
-import retrofit2.Call;
+import com.example.looper.architecturedemo.CategoryResult;
+import com.example.looper.architecturedemo.network.ApiResponse;
+
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -16,9 +18,9 @@ import retrofit2.http.Path;
 public interface GankApi {
 
     @GET("data/{category}/{number}/{page}")
-    Call<CategoryResult> getCategoryDate(@Path("category") String category, @Path("number") int number, @Path("page") int page);
+    LiveData<ApiResponse<CategoryResult>> getCategoryDate(@Path("category") String category, @Path("number") int number, @Path("page") int page);
 
     @GET("random/data/福利/{number}")
-    Call<CategoryResult> getRandomBeauties(@Path("number") int number);
+    LiveData<ApiResponse<CategoryResult>> getRandomBeauties(@Path("number") int number);
 
 }

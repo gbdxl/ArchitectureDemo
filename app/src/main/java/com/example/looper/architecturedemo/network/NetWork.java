@@ -31,6 +31,7 @@ public class NetWork {
           .client(okHttpClient)
           .baseUrl("http://gank.io/api/")
           .addConverterFactory(gsonConverterFactory)
+          .addCallAdapterFactory(new LiveDataCallAdapterFactory())
           .build();
       gankApi = retrofit.create(GankApi.class);
     }

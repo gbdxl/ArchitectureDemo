@@ -36,6 +36,18 @@ public class Resource<T> {
     return new Resource<>(LOADING, data, null);
   }
 
+  public boolean isLoading() {
+    return status == LOADING;
+  }
+
+  public boolean isSuccess() {
+    return status == SUCCESS;
+  }
+
+  public boolean isError() {
+    return status == ERROR;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
